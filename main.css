@@ -1,5 +1,6 @@
 body{
   margin:0;
+  background-color: #000;
 }
 
 .topBar{
@@ -95,7 +96,7 @@ label{
   border: solid 3px #ECFF00;
   margin: 5px;
   padding:35px 35px 15px 15px;
-  font-size:7em;
+  font-size:6em;
   text-decoration: none;
   color: #000;
 }
@@ -103,6 +104,10 @@ label{
 .menu a:hover{
   color:#ECFF00;
   border-color: black;
+}
+
+.changeShoesButton{
+  font-size: 0.8em;
 }
 
 .trainingPage{
@@ -161,6 +166,30 @@ label{
 }
 
 .race a:hover{
+  color:#ECFF00;
+  border-color: black;
+}
+
+.shoePage{
+  width: 50%;
+  margin: auto;
+  padding-bottom: 50px;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  background-color: lightgrey;
+  font-family: 'Orbitron', sans-serif;
+  font-style: italic;
+}
+
+.shoePage a{
+  margin: 5px;
+  padding:5px;
+  text-decoration: none;
+  color: #000;
+}
+
+.shoePage a:hover{
   color:#ECFF00;
   border-color: black;
 }

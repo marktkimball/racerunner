@@ -11,7 +11,7 @@
   <div class="topBar">
     <h1>Race Runner</h1>
   </div>
-  <div class="landingPage hide">
+  <div class="landingPage">
     <div class="createRunner">
       <h1>Create a Runner</h1>
       <img class="createRunnerImg blackSelect" src="assets/largeRunnerBlack.png">
@@ -68,8 +68,15 @@
   <div class="menu hide">
     <h1>What do you want to do?</h1>
     <div>
-      <a href="#">TRAIN</a>
-      <a href="#">RACE</a>
+      <div class='trainingButton'>
+        <a href="#">TRAIN</a>
+      </div>
+      <div class='raceButton'>
+        <a href="#">RACE</a>
+      </div>
+      <div class ='changeShoesButton'>
+        <a href="#">CHANGE SHOES</a>
+      </div>
     </div>
   </div>
 
@@ -78,9 +85,28 @@
 
   </div>
 
-  <div class="racePage">
+  <div class="racePage hide">
     <h1>Select Race</h1>
 
+  </div>
+
+  <div class="shoePage">
+    <h1>Select Shoes</h1>
+    <input type="radio" name="shoeSelect" value="barefoot" checked="checked">
+    <label for="shoeSelect">Barefoot</label>
+    <input type="radio" name="shoeSelect" value="shoes.chucks">
+    <label for="shoeSelect">Chucks</label>
+    <input type="radio" name="shoeSelect" value="shoes.brooks">
+    <label for="shoeSelect">Brooks</label>
+    <input type="radio" name="shoeSelect" value="shoes.nike">
+    <label for="shoeSelect">Nike</label>
+    <input type="radio" name="shoeSelect" value="shoes.scaucony">
+    <label for="shoeSelect">Scaucony</label>
+    <input type="radio" name="shoeSelect" value="shoes.hoka">
+    <label for="shoeSelect">Hoka One One</label>
+    <div class="shoeSelectSubmitButton">
+      <input class="btn btn-success" type="submit" value="Submit">
+    </div>
   </div>
 
 </body>

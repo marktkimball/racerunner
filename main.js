@@ -1,13 +1,15 @@
-function Runner(name, color, speed, endurance){
+function Runner(name, color, speed, endurance, shoe){
   this.name = name || "Johnny Rocket";
   this.color = color || "black";
   this.speed = speed || 5;
   this.endurance = endurance || 5;
   this.fatigue = 0;
+  this.shoes = shoe || new Shoes();
 
-  this.wearShoes = function(name, speed){
-    this.shoes = new Shoes(name, speed);
-  };
+  this.getShoes = function(shoe){
+
+    this.shoes = eval(shoe);
+  }
 
   this.train = function(training){
 
@@ -39,10 +41,11 @@ function Shoes(name, speed){
   this.speed = speed || 5;
 };
 
-function Course(name, terrain, distance, speedMultipler){
+function Course(name, terrain, displayDistance, distance, speedMultipler){
   this.name = name;
   this.terrain = terrain;
   this.distance = distance;
+  this.displayDistance = displayDistance;
   this.speedMultipler = speedMultipler;
   this.resetDistance = function(){
     this.distance = distance;
@@ -56,35 +59,31 @@ function Training(name, speedMultipler, enduranceMultipler, injuryRisk){
   this.injuryRisk = injuryRisk;
 }
 
-//Make training to increase speed, but if done too much may result in injury
-
-//Create some runners
-var sage = new Runner("Sage Canaday", "green", 20, 15);
-var vargo = new Runner("Chris Vargo", "blue", 15, 15);
-var ginger = new Runner("Ginger Runner", "orange", 10, 12);
-var userRunner;
-
-
 //Create some shoes
 var shoes = {};
 shoes.chucks = new Shoes("Chucks", 3);
 shoes.brooks = new Shoes("Brooks", 20);
-shoes.nikes = new Shoes("Nike", 25);
+shoes.nike = new Shoes("Nike", 25);
 shoes.scaucony = new Shoes("Scaucony", 30);
 shoes.hoka = new Shoes("Hoka One One", 35);
 
+//Create some runners
+var sage = new Runner("Sage Canaday", "green", 20, 15, shoes.hoka);
+var vargo = new Runner("Chris Vargo", "blue", 15, 15, shoes.nike);
+var ginger = new Runner("Ginger Runner", "orange", 10, 12, shoes.scaucony);
+var userRunner;
 
 //Create some courses
 var courses = {};
-courses.mile = new Course("Mile track meet", "track", 100, 15);
-courses.fiveK = new Course("5K race", "asphalt", 310, 10);
-courses.tenK = new Course("10K race", "asphalt", 620, 8);
-courses.halfMarathon = new Course("Half Marathon", "asphalt", 1310, 6);
-courses.marathon = new Course("Marathon", "asphalt", 2620, 5);
-courses.ultraMarathon50K = new Course("50K Ultra Marathon", "trail", 3110, 4);
-courses.ultraMarathon50M = new Course("50 Mile Ultra Marathon", "trail", 5000, 2);
-courses.ultraMarathon100K = new Course("100K Ultra Marathon", "trail", 6220, 1);
-courses.ultraMarathon100M = new Course("100 Mile Ultra Marathon", "trail", 10000, 0.5);
+courses.mile = new Course("Mile track meet", "track", "1 mile", 100, 15);
+courses.fiveK = new Course("5K race", "asphalt", "3.1 miles", 310, 10);
+courses.tenK = new Course("10K race", "asphalt", "6.2 miles",  620, 8);
+courses.halfMarathon = new Course("Half Marathon", "asphalt", "13.1 miles", 1310, 6);
+courses.marathon = new Course("Marathon", "asphalt", "26.2 miles", 2620, 5);
+courses.ultraMarathon50K = new Course("50K Ultra Marathon", "trail", "31.1 miles", 3110, 4);
+courses.ultraMarathon50M = new Course("50 Mile Ultra Marathon", "trail", "50 miles", 5000, 2);
+courses.ultraMarathon100K = new Course("100K Ultra Marathon", "trail", "62.2 miles", 6220, 1);
+courses.ultraMarathon100M = new Course("100 Mile Ultra Marathon", "trail", "100 miles", 10000, 0.5);
 
 //Create some training sessions
 var trainingPlans = {};
@@ -116,6 +115,11 @@ $('.landingPage').on('click', 'input[name=colorSelect]', function(event){
   }
 });
 
+//Logo click to home
+$('body').on('click', '.topBar', function(){
+  location.reload();
+});
+
 //Create new runner
 $('.createRunner').on('click', '.btn', function(){
   var name = $('input[name=nameField]').val();
@@ -132,7 +136,6 @@ $('.createRunner').on('click', '.btn', function(){
 //Select pre-made runner
 $('.selectPresetRunner').on('click', '.btn', function(){
   userRunner = window[$("input[name=runnerSelect]:checked").val()];
-  console.log("This is the other button you are looking for...");
   loadTemplate('userStats', userRunner, $('.menu'));
   $('.landingPage').addClass('hide');
   $('.menu').removeClass('hide');
@@ -144,12 +147,29 @@ $('.menu').on('click', 'a', function(){
   if($(this).text() === "TRAIN"){
     $('.menu').addClass('hide');
     $('.trainingPage').removeClass('hide');
-  }else{
-    console.log("Go to race page");
+  }else if($(this).text() === "RACE"){
     $('.menu').addClass('hide');
     $('.racePage').removeClass('hide');
+  }else{
+    $('.menu').addClass('hide');
+    $('.shoePage').removeClass('hide');
   }
 });
+
+//Training selection
+$('.trainingPage').on('click', 'a', function(){
+  if($(this).text() === "Easy run"){
+
+  }
+});
+
+//Shoe selection
+$('.shoePage').on('click', '.btn', function(){
+  console.log($("input[name=shoeSelect]:checked").val());
+  userRunner.getShoes($("input[name=shoeSelect]:checked").val());
+  return userRunner;
+});
+
 
 //Template stuff
 function getTemplate(name){

@@ -3,19 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <title>Race Runner</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link href='http://fonts.googleapis.com/css?family=Orbitron:900' rel='stylesheet' type='text/css'>
-   <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="main.css">
 </head>
 <body>
   <div class="topBar">
     <h1>Race Runner</h1>
   </div>
-  <div class="landingPage">
+  <div class="landingPage hide">
+    <div class="createRunner">
+      <h1>Create a Runner</h1>
+      <img class="createRunnerImg blackSelect" src="assets/largeRunnerBlack.png">
+      <img class="createRunnerImg blueSelect hide" src="assets/largeRunnerBlue.png">
+      <img class="createRunnerImg greenSelect hide" src="assets/largeRunnerGreen.png">
+      <img class="createRunnerImg pinkSelect hide" src="assets/largeRunnerPink.png">
+      <img class="createRunnerImg orangeSelect hide" src="assets/largeRunnerOrange.png">
+      <img class="createRunnerImg redSelect hide" src="assets/largeRunnerRed.png">
+
+      <p>What is your runner's name?</p>
+      <input type="text" name="nameField" class="runnerNameInput" placeholder="">
+
+      <p>Select color</p>
+      <input type="radio" name="colorSelect" value="Black" checked="checked">
+      <label for="colorSelect">Black</label>
+      <input type="radio" name="colorSelect" value="Blue">
+      <label for="colorSelect" id="blueSelect">Blue</label>
+      <input type="radio" name="colorSelect" value="Green">
+      <label for="colorSelect" id="greenSelect">Green</label>
+      <input type="radio" name="colorSelect" value="Pink">
+      <label for="colorSelect" id="pinkSelect">Pink</label>
+      <input type="radio" name="colorSelect" value="Orange">
+      <label for="colorSelect" id="orangeSelect">Orange</label>
+      <input type="radio" name="colorSelect" value="Red">
+      <label for="colorSelect" id="redSelect">Red</label>
+      <div class="createRunnerSubmitButton">
+        <input class="btn btn-success" type="submit" value="Submit">
+      </div>
+    </div>
+
+    <div class="selectPresetRunner">
+      <h3>Or select from below...</h3>
+      <div class="selectRunner">
+        <img src="assets/runnerGreen.png"><br>
+        <input type="radio" name="runnerSelect" value="sage">
+        <label for="runnerSelect">Sage Canaday</label>
+      </div>
+      <div class="selectRunner">
+        <img src="assets/runnerBlue.png"><br>
+        <input type="radio" name="runnerSelect" value="vargo">
+        <label for="runnerSelect">Chris Vargo</label>
+      </div>
+      <div class="selectRunner">
+        <img src="assets/runnerOrange.png"><br>
+        <input type="radio" name="runnerSelect" value="ginger">
+        <label for="runnerSelect">Ginger Runner</label>
+      </div>
+      <div class="useRunnerSubmitButton">
+        <input class="btn btn-success" type="submit" value="Submit">
+      </div>
+    </div>
+  </div>
+
+  <div class="menu hide">
+    <h1>What do you want to do?</h1>
+    <div>
+      <a href="#">TRAIN</a>
+      <a href="#">RACE</a>
+    </div>
+  </div>
+
+  <div class="trainingPage hide">
+    <h1>Select Training</h1>
+
+  </div>
+
+  <div class="racePage">
+    <h1>Select Race</h1>
 
   </div>
 
 </body>
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="bower_components/underscore/underscore.js"></script>
+<script type="text/javascript" src="templates.js"></script>
 <script type="text/javascript" src="main.js"></script>
 </html>

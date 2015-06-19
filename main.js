@@ -1,27 +1,34 @@
-function Runner(name, speed){
-  this.name = name;
+function Runner(name, color, speed, endurance){
+  this.name = name || "Johnny Rocket";
+  this.color = color || "black";
   this.speed = speed || 5;
+  this.endurance = endurance || 5;
   this.fatigue = 0;
 
   this.wearShoes = function(name, speed){
     this.shoes = new Shoes(name, speed);
   };
 
+  this.train = function(training){
+
+  };
+
   this.runRace = function(course, shoes){
-    var humanSpeed = speed * course.speedMultipler - this.fatigue * course.speedMultipler;
-    var movement = Math.floor((Math.random() * speed) + (Math.random() * shoes.speed));
+    var humanSpeed = this.speed * course.speedMultipler - this.fatigue * course.speedMultipler;
+    var movement = Math.floor((Math.random() * humanSpeed) + (Math.random() * shoes.speed));
     course.distance -= movement;
     if(course.distance <= 0){
-      console.log("Congrats! " + name + " completed the " + course.name + "!");
+      console.log("Congrats! " + this.name + " completed the " + course.name + "!");
       this.fatigue = 0;
       course.resetDistance();
     }
     if(movement === 0){
-      console.log("Uh oh! " + name +" DNFed from fatigue!")
+      console.log("Uh oh! " + this.name +" DNFed from fatigue!")
       this.fatigue = 0;
       course.resetDistance();
     }
-    if((Math.floor(Math.random() * 5)) === 4){
+    if((Math.floor(Math.random() * this.endurance)) < (Math.floor(Math.random() * this.endurance))){
+      console.log(this.name +" gained fatigue by 1!")
       this.fatigue += 1;
     }
   }
@@ -39,27 +46,125 @@ function Course(name, terrain, distance, speedMultipler){
   this.speedMultipler = speedMultipler;
   this.resetDistance = function(){
     this.distance = distance;
-
   }
+};
+
+function Training(name, speedMultipler, enduranceMultipler, injuryRisk){
+  this.name = name;
+  this.speedMultipler = speedMultipler;
+  this.enduranceMultipler = enduranceMultipler;
+  this.injuryRisk = injuryRisk;
 }
 
+//Make training to increase speed, but if done too much may result in injury
+
 //Create some runners
-var sage = new Runner("Sage", 20);
-var vargo = new Runner("Vargo", 15);
-var ginger = new Runner("Ginger Runner", 10);
-var mark = new Runner("Mark", 5);
+var sage = new Runner("Sage Canaday", "green", 20, 15);
+var vargo = new Runner("Chris Vargo", "blue", 15, 15);
+var ginger = new Runner("Ginger Runner", "orange", 10, 12);
+var userRunner;
 
 
 //Create some shoes
-var chucks = new Shoes("Chucks", 10);
-var brooks = new Shoes("Brooks", 20);
-var nikes = new Shoes("Nike", 25);
-var scaucony = new Shoes("Scaucony", 30);
-var hoka = new Shoes("Hoka One One", 35);
+var shoes = {};
+shoes.chucks = new Shoes("Chucks", 3);
+shoes.brooks = new Shoes("Brooks", 20);
+shoes.nikes = new Shoes("Nike", 25);
+shoes.scaucony = new Shoes("Scaucony", 30);
+shoes.hoka = new Shoes("Hoka One One", 35);
 
 
 //Create some courses
-var roadMarathon = new Course("Road Marathon", "asphalt", 2600, 5);
-var fiveK = new Course("Elite 5K", "asphalt", 500, 10);
-var ultraMarathon = new Course("Western States 100", "trail", 10000, 1);
-var mile = new Course("USTAF Invitational", "track", 100, 15);
+var courses = {};
+courses.mile = new Course("Mile track meet", "track", 100, 15);
+courses.fiveK = new Course("5K race", "asphalt", 310, 10);
+courses.tenK = new Course("10K race", "asphalt", 620, 8);
+courses.halfMarathon = new Course("Half Marathon", "asphalt", 1310, 6);
+courses.marathon = new Course("Marathon", "asphalt", 2620, 5);
+courses.ultraMarathon50K = new Course("50K Ultra Marathon", "trail", 3110, 4);
+courses.ultraMarathon50M = new Course("50 Mile Ultra Marathon", "trail", 5000, 2);
+courses.ultraMarathon100K = new Course("100K Ultra Marathon", "trail", 6220, 1);
+courses.ultraMarathon100M = new Course("100 Mile Ultra Marathon", "trail", 10000, 0.5);
+
+//Create some training sessions
+var trainingPlans = {};
+trainingPlans.easyRun = new Training("Easy run", 1, 1, 1);
+trainingPlans.longRun = new Training("Long run", 3, 5, 3);
+trainingPlans.tempoRun = new Training("Tempo run", 4, 3, 6);
+trainingPlans.intervalRun = new Training("Intervals", 5, 2, 8);
+
+//Change color of runner icon on radio select
+$('.landingPage').on('click', 'input[name=colorSelect]', function(event){
+  if($(this).attr('value') === "Black"){
+    $(this).siblings('img').addClass('hide');
+    $('.blackSelect').removeClass('hide');
+  }else if($(this).attr('value') === "Blue"){
+    $(this).siblings('img').addClass('hide');
+    $('.blueSelect').removeClass('hide');
+  }else if($(this).attr('value') === "Green"){
+    $(this).siblings('img').addClass('hide');
+    $('.greenSelect').removeClass('hide');
+  }else if($(this).attr('value') === "Pink"){
+    $(this).siblings('img').addClass('hide');
+    $('.pinkSelect').removeClass('hide');
+  }else if($(this).attr('value') === "Orange"){
+    $(this).siblings('img').addClass('hide');
+    $('.orangeSelect').removeClass('hide');
+  }else{
+    $(this).siblings('img').addClass('hide');
+    $('.redSelect').removeClass('hide');
+  }
+});
+
+//Create new runner
+$('.createRunner').on('click', '.btn', function(){
+  var name = $('input[name=nameField]').val();
+  var color =  $("input[name=colorSelect]:checked").val();
+  userRunner = new Runner(name, color);
+
+  loadTemplate('userStats', userRunner, $('.menu'));
+
+  $('.landingPage').addClass('hide');
+  $('.menu').removeClass('hide');
+  return userRunner;
+});
+
+//Select pre-made runner
+$('.selectPresetRunner').on('click', '.btn', function(){
+  userRunner = window[$("input[name=runnerSelect]:checked").val()];
+  console.log("This is the other button you are looking for...");
+  loadTemplate('userStats', userRunner, $('.menu'));
+  $('.landingPage').addClass('hide');
+  $('.menu').removeClass('hide');
+  return userRunner;
+});
+
+//Menu select
+$('.menu').on('click', 'a', function(){
+  if($(this).text() === "TRAIN"){
+    $('.menu').addClass('hide');
+    $('.trainingPage').removeClass('hide');
+  }else{
+    console.log("Go to race page");
+    $('.menu').addClass('hide');
+    $('.racePage').removeClass('hide');
+  }
+});
+
+//Template stuff
+function getTemplate(name){
+  return templates[name];
+};
+
+function loadTemplate(tmplName, data, $target){
+  var compiledTmpl = _.template(getTemplate(tmplName));
+  $target.append(compiledTmpl(data));
+};
+
+_.each(trainingPlans, function(el){
+  loadTemplate('trainingPage', el, $('.trainingPage'));
+});
+
+_.each(courses, function(el){
+  loadTemplate('racePage', el, $('.racePage'));
+});

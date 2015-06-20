@@ -194,6 +194,64 @@ label{
   border-color: black;
 }
 
+.singleTrainingPage{
+  width: 50%;
+  margin: auto;
+  padding-bottom: 50px;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  background-color: lightgrey;
+  font-family: 'Orbitron', sans-serif;
+  font-style: italic;
+}
+
+.singleRacePage{
+  width: 50%;
+  margin: auto;
+  padding-bottom: 50px;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  background-color: lightgrey;
+  font-family: 'Orbitron', sans-serif;
+  font-style: italic;
+}
+
+@keyframes runnerAnimation{
+    0%{
+      left: 2%;
+    }
+    15%{
+      left: 10%;
+    }
+    50%{
+      left:50%
+    }
+    75%{
+      left:80%
+    }
+    100%{
+      left: 95%;
+    }
+}
+
+.animatedRunner img{
+  float: left;
+  position: relative;
+  animation: runnerAnimation 5s linear;
+
+}
+
+.animatedRacer img{
+  float: left;
+  position: relative;
+  animation: runnerAnimation 5.5s linear;
+
+}
+
+
+
 
 .hide{
   display:none;

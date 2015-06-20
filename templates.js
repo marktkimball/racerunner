@@ -19,5 +19,17 @@ templates.racePage = [
 ].join("");
 
 templates.individualTraining = [
-  "<div class='individualTraining'><h1><%= name %> in Progress...</h1>"
-];
+  "<div class='individualTraining'><h1><%= name %> in progress...</h1></div>"
+].join("");
+
+templates.individualRace = [
+  "<div class='individualRace'><h1><%= name %> in progress...</h1></div>"
+].join("");
+
+templates.animatedRunner = [
+  "<div class='animatedRunner'><img src='assets/runner<%= color %>.png'></div>"
+].join("");
+
+templates.animatedRacer = [
+"<div class='animatedRacer'><img src='assets/runnerBlack.png'></div>"
+].join("");

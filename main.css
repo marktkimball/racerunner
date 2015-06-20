@@ -247,7 +247,10 @@ label{
   float: left;
   position: relative;
   animation: runnerAnimation 5.5s linear;
+}
 
+.animatedRunnerDNF img{
+  
 }
 
 

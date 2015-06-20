@@ -13,34 +13,54 @@ function Runner(name, color, speed, endurance, shoe){
 
   this.train = function(training){
     if(Math.floor(Math.random() * 30) <= training.injuryRisk){
-      this.speed -= Math.random() * training.speedMultipler;
-      this.endurance -= Math.random() * training.enduranceMultipler;
-      console.log(name + " got injured in training!");
+      this.speed -= Math.ceil(Math.random() * training.speedMultipler * 10) / 10;
+      this.endurance -= Math.ceil(Math.random() * training.enduranceMultipler * 10) / 10;
+      setTimeout(function(){
+        $('.singleTrainingPage').empty();
+        loadTemplate('trainingDecreasedResults', userRunner, $('.singleTrainingPage'));
+      }, 5000);
     } else{
-      this.speed += Math.random() * training.speedMultipler;
-      this.endurance += Math.random() * training.enduranceMultipler;
+      this.speed += Math.ceil(Math.random() * training.speedMultipler * 10) / 10;
+      this.endurance += Math.ceil(Math.random() * training.enduranceMultipler * 10) / 10;
+      setTimeout(function(){
+        $('.singleTrainingPage').empty();
+        loadTemplate('trainingImprovedResults', userRunner, $('.singleTrainingPage'));
+      }, 5000);
     }
   };
 
-  this.runRace = function(course, shoes){
-    var humanSpeed = this.speed * course.speedMultipler - this.fatigue * course.speedMultipler;
-    var movement = Math.floor((Math.random() * humanSpeed) + (Math.random() * shoes.speed));
-    course.distance -= movement;
-    if(course.distance <= 0){
-      console.log("Congrats! " + this.name + " completed the " + course.name + "!");
-      this.fatigue = 0;
-      course.resetDistance();
+  this.runRace = function(course){
+    for(var timeCount = 1; courses.mile.distance > 0; timeCount++){
+      var humanSpeed = this.speed * course.speedMultipler - this.fatigue * course.speedMultipler;
+      var movement = Math.floor((Math.random() * humanSpeed) + (Math.random() * this.shoes.speed));
+      course.distance -= movement;
+      if(course.distance <= 0){
+        setTimeout(function(){
+          $('.singleRacePage').empty();
+          loadTemplate('raceCompletedResults', userRunner, $('.singleRacePage'));
+          loadTemplate('raceTimeResults', {timeCount: timeCount}, $('.singleRacePage'));
+        }, 5500);
+        this.fatigue = 0;
+        course.resetDistance();
+        break;
+      }
+      if(movement <= 0){
+        var distanceRemaining = course.distance;
+        setTimeout(function(){
+          $('.singleRacePage').empty();
+          loadTemplate('raceDNFResults', userRunner, $('.singleRacePage'));
+          loadTemplate('raceDistanceRemaining', {distance: distanceRemaining}, $('.singleRacePage'));
+        }, 5500);
+        this.fatigue = 0;
+        course.resetDistance();
+        break;
+      }
+      if((Math.floor(Math.random() * this.endurance)) < (Math.floor(Math.random() * this.endurance))){
+        console.log(this.name +" gained fatigue by 1!")
+        this.fatigue += 1;
+      }
     }
-    if(movement <= 0){
-      console.log("Uh oh! " + this.name +" DNFed from fatigue!")
-      this.fatigue = 0;
-      course.resetDistance();
-    }
-    if((Math.floor(Math.random() * this.endurance)) < (Math.floor(Math.random() * this.endurance))){
-      console.log(this.name +" gained fatigue by 1!")
-      this.fatigue += 1;
-    }
-  }
+  };
 };
 
 function Shoes(name, speed){
@@ -97,7 +117,7 @@ var trainingPlans = {};
 trainingPlans.easyRun = new Training("Easy run", 1, 1, 1);
 trainingPlans.longRun = new Training("Long run", 2, 5, 3);
 trainingPlans.tempoRun = new Training("Tempo run", 4, 3, 6);
-trainingPlans.intervalRun = new Training("Intervals", 5, 2, 8);
+trainingPlans.intervalRun = new Training("Intervals", 6, 1, 8);
 
 //Change color of runner icon on radio select
 $('.landingPage').on('click', 'input[name=colorSelect]', function(event){
@@ -166,56 +186,61 @@ $('.menu').on('click', 'a', function(){
 //Race selection
 $('.racePage').on('click', 'a', function(runner, course){
   console.log($(this).text());
-
   $('.racePage').addClass('hide');
   $('.singleRacePage').removeClass('hide');
   $('.singleRacePage').empty();
   setTimeout(function(){
     $('.animatedRunner').remove();
-  }, 5001);
+  }, 5000);
   setTimeout(function(){
-    $('.animatedRacer').remove();
-  }, 5501);
-  setTimeout(function(){
-    $('.racePage').removeClass('hide');
+    $('.menu').removeClass('hide');
     $('.singleRacePage').addClass('hide');
-  }, 10000);
+  }, 10500);
   if($(this).text() === "Mile track meet"){
     loadTemplate('individualRace', courses.mile, $('.singleRacePage'));
     loadTemplate('animatedRunner', userRunner, $('.singleRacePage'));
     loadTemplate('animatedRacer', userRunner, $('.singleRacePage'));
+    userRunner.runRace(courses.mile);
   }else if($(this).text() === "5K race"){
     loadTemplate('individualRace', courses.fiveK, $('.singleRacePage'));
     loadTemplate('animatedRunner', userRunner, $('.singleRacePage'));
     loadTemplate('animatedRacer', userRunner, $('.singleRacePage'));
+    userRunner.runRace(courses.fiveK);
   }else if($(this).text() === "10K race"){
     loadTemplate('individualRace', courses.tenK, $('.singleRacePage'));
     loadTemplate('animatedRunner', userRunner, $('.singleRacePage'));
     loadTemplate('animatedRacer', userRunner, $('.singleRacePage'));
+    userRunner.runRace(courses.tenK);
   }else if($(this).text() === "Half Marathon"){
     loadTemplate('individualRace', courses.halfMarathon, $('.singleRacePage'));
     loadTemplate('animatedRunner', userRunner, $('.singleRacePage'));
     loadTemplate('animatedRacer', userRunner, $('.singleRacePage'));
+    userRunner.runRace(courses.halfMarathon);
   }else if($(this).text() === "Marathon"){
     loadTemplate('individualRace', courses.marathon, $('.singleRacePage'));
     loadTemplate('animatedRunner', userRunner, $('.singleRacePage'));
     loadTemplate('animatedRacer', userRunner, $('.singleRacePage'));
+    userRunner.runRace(courses.marathon);
   }else if($(this).text() === "50K Ultra Marathon"){
     loadTemplate('individualRace', courses.ultraMarathon50K, $('.singleRacePage'));
     loadTemplate('animatedRunner', userRunner, $('.singleRacePage'));
     loadTemplate('animatedRacer', userRunner, $('.singleRacePage'));
+    userRunner.runRace(courses.ultraMarathon50K);
   }else if($(this).text() === "50 Mile Ultra Marathon"){
     loadTemplate('individualRace', courses.ultraMarathon50M, $('.singleRacePage'));
     loadTemplate('animatedRunner', userRunner, $('.singleRacePage'));
     loadTemplate('animatedRacer', userRunner, $('.singleRacePage'));
+    userRunner.runRace(courses.ultraMarathon50M);
   }else if($(this).text() === "100K Ultra Marathon"){
     loadTemplate('individualRace', courses.ultraMarathon100K, $('.singleRacePage'));
     loadTemplate('animatedRunner', userRunner, $('.singleRacePage'));
     loadTemplate('animatedRacer', userRunner, $('.singleRacePage'));
+    userRunner.runRace(courses.ultraMarathon100K);
   }else{
     loadTemplate('individualRace', courses.ultraMarathon100M, $('.singleRacePage'));
-    loadTemplate('animatedRunner', userRunner, $('.singleTrainingPage'));
+    loadTemplate('animatedRunner', userRunner, $('.singleRacePage'));
     loadTemplate('animatedRacer', userRunner, $('.singleRacePage'));
+    userRunner.runRace(courses.ultraMarathon100M);
   }
 });
 
@@ -225,25 +250,25 @@ $('.trainingPage').on('click', 'a', function(){
   $('.singleTrainingPage').removeClass('hide');
   $('.singleTrainingPage').empty();
   setTimeout(function(){
-    $('.animatedRunner').remove();
-
-  }, 5001);
-  setTimeout(function(){
-    $('.trainingPage').removeClass('hide');
+    $('.menu').removeClass('hide');
     $('.singleTrainingPage').addClass('hide');
   }, 10000);
   if($(this).text() === "Easy run"){
     loadTemplate('individualTraining', trainingPlans.easyRun, $('.singleTrainingPage'));
     loadTemplate('animatedRunner', userRunner, $('.singleTrainingPage'));
+    userRunner.train(trainingPlans.easyRun);
   }else if($(this).text() === "Long run"){
     loadTemplate('individualTraining', trainingPlans.longRun, $('.singleTrainingPage'));
     loadTemplate('animatedRunner', userRunner, $('.singleTrainingPage'));
+    userRunner.train(trainingPlans.longRun);
   }else if($(this).text() === "Tempo run"){
     loadTemplate('individualTraining', trainingPlans.tempoRun, $('.singleTrainingPage'));
     loadTemplate('animatedRunner', userRunner, $('.singleTrainingPage'));
+    userRunner.train(trainingPlans.tempoRun);
   }else{
     loadTemplate('individualTraining', trainingPlans.intervalRun, $('.singleTrainingPage'));
     loadTemplate('animatedRunner', userRunner, $('.singleTrainingPage'));
+    userRunner.train(trainingPlans.intervalRun);
   }
 });
 

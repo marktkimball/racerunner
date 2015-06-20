@@ -22,8 +22,41 @@ templates.individualTraining = [
   "<div class='individualTraining'><h1><%= name %> in progress...</h1></div>"
 ].join("");
 
+templates.trainingImprovedResults = [
+  "<div class ='trainingResults'><h1>RESULTS</h1>",
+  "<h2><%= name %></h2>",
+  "<p>Speed increased to: <%= speed %></p>",
+  "<p>Endurance increased to: <%= endurance %></p></div>"
+].join("");
+
+templates.trainingDecreasedResults = [
+  "<div class ='trainingResults'><h1>RESULTS</h1>",
+  "<h2><%= name %> was injured in training!</h2>",
+  "<p>Speed decreased to: <%= speed %></p>",
+  "<p>Endurance decreased to: <%= endurance %></p></div>"
+].join("");
+
 templates.individualRace = [
   "<div class='individualRace'><h1><%= name %> in progress...</h1></div>"
+].join("");
+
+templates.raceCompletedResults = [
+  "<div class ='raceResults'><h1>RESULTS</h1>",
+  "<h2><%= name %></h2>",
+  "<p>Completed the race with a time of: "
+].join("");
+
+templates.raceDNFResults = [
+  "<div class ='raceResults'><h1>RESULTS</h1>",
+  "<h2><%= name %> DNFed due to fatigue!</h2>"
+].join("");
+
+templates.raceTimeResults = [
+"<%= timeCount %>!</p>"
+].join("");
+
+templates.raceDistanceRemaining = [
+  "<p><%= distance %> miles were remaining in the race.</p>"
 ].join("");
 
 templates.animatedRunner = [

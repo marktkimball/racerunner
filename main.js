@@ -12,7 +12,14 @@ function Runner(name, color, speed, endurance, shoe){
   }
 
   this.train = function(training){
-
+    if(Math.floor(Math.random() * 30) <= training.injuryRisk){
+      this.speed -= Math.random() * training.speedMultipler;
+      this.endurance -= Math.random() * training.enduranceMultipler;
+      console.log(name + " got injured in training!");
+    } else{
+      this.speed += Math.random() * training.speedMultipler;
+      this.endurance += Math.random() * training.enduranceMultipler;
+    }
   };
 
   this.runRace = function(course, shoes){
@@ -88,7 +95,7 @@ courses.ultraMarathon100M = new Course("100 Mile Ultra Marathon", "trail", "100 
 //Create some training sessions
 var trainingPlans = {};
 trainingPlans.easyRun = new Training("Easy run", 1, 1, 1);
-trainingPlans.longRun = new Training("Long run", 3, 5, 3);
+trainingPlans.longRun = new Training("Long run", 2, 5, 3);
 trainingPlans.tempoRun = new Training("Tempo run", 4, 3, 6);
 trainingPlans.intervalRun = new Training("Intervals", 5, 2, 8);
 
@@ -159,14 +166,23 @@ $('.menu').on('click', 'a', function(){
 //Training selection
 $('.trainingPage').on('click', 'a', function(){
   if($(this).text() === "Easy run"){
-
+    console.log("Easy");
+  }else if($(this).text() === "Long run"){
+    console.log("Long");
+  }else if($(this).text() === "Tempo run"){
+    console.log("Tempo");
+  }else{
+    console.log("Intervals");
   }
 });
 
 //Shoe selection
 $('.shoePage').on('click', '.btn', function(){
-  console.log($("input[name=shoeSelect]:checked").val());
   userRunner.getShoes($("input[name=shoeSelect]:checked").val());
+  $('.currentStats').remove();
+  loadTemplate('userStats', userRunner, $('.menu'));
+  $('.menu').removeClass('hide');
+  $('.shoePage').addClass('hide');
   return userRunner;
 });
 

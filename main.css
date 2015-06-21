@@ -38,7 +38,7 @@ h1{
 }
 
 .runnerNameInput{
-  width: 400px;
+  width: 200px;
   font-size: 1.5em;
 }
 
@@ -236,6 +236,29 @@ label{
     }
 }
 
+@keyframes runnerDNFAnimation{
+    0%{
+      left: 2%;
+      transform: rotate(0deg);
+    }
+    15%{
+      left: 15%;
+      transform: rotate(0deg);
+    }
+    50%{
+      left:55%;
+      transform: rotate(0deg);
+    }
+    75%{
+      left:70%;
+      transform: rotate(60deg);
+    }
+    100%{
+      left: 80%;
+      transform: rotate(80deg);
+    }
+}
+
 .animatedRunner img{
   float: left;
   position: relative;
@@ -250,11 +273,31 @@ label{
 }
 
 .animatedRunnerDNF img{
-  
+  float: left;
+  position: relative;
+  animation: runnerDNFAnimation 5s linear;
+  transform: translate(20px) rotate(60deg);
 }
 
 
+@media all and (max-width: 1399px){
+  .menu a{
+    font-size: 4em;
+  }
+}
 
+@media all and (max-width: 1000px){
+  .menu a{
+    border: none;
+    text-decoration: underline;
+  }
+}
+
+@media all and (max-width: 1000px){
+  .menu a{
+    font-size:3em;
+  }
+}
 
 .hide{
   display:none;

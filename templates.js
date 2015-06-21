@@ -52,7 +52,7 @@ templates.raceDNFResults = [
 ].join("");
 
 templates.raceTimeResults = [
-"<%= timeCount %>!</p>"
+"<%= hours %> : <%= timeCount %> : 00 !!</p>"
 ].join("");
 
 templates.raceDistanceRemaining = [
@@ -61,6 +61,10 @@ templates.raceDistanceRemaining = [
 
 templates.animatedRunner = [
   "<div class='animatedRunner'><img src='assets/runner<%= color %>.png'></div>"
+].join("");
+
+templates.animatedRunnerDNF = [
+  "<div class='animatedRunnerDNF'><img src='assets/runner<%= color %>.png'></div>"
 ].join("");
 
 templates.animatedRacer = [

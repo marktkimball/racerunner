@@ -76,17 +76,14 @@ function Runner(name, color, speed, endurance, shoe){
       }
       if(timeCount >= 5 && timeCount < 10){
         if((Math.floor(Math.random() * this.endurance)) < (Math.floor(Math.random() * this.endurance) * 2)){
-          console.log(this.name +" gained fatigue by 2!")
           this.fatigue += 2;
         }
       }else if(timeCount >=10){
         if((Math.floor(Math.random() * this.endurance)) < (Math.floor(Math.random() * this.endurance) * 3)){
-          console.log(this.name +" gained fatigue by 3!")
           this.fatigue += 3;
         }
       }else{
         if((Math.floor(Math.random() * this.endurance)) < (Math.floor(Math.random() * this.endurance) * 1.5)){
-          console.log(this.name +" gained fatigue by 1!")
           this.fatigue += 1;
         }
       }
@@ -217,7 +214,6 @@ $('.menu').on('click', 'a', function(){
 
 //Race selection
 $('.racePage').on('click', 'a', function(runner, course){
-  console.log($(this).text());
   $('.racePage').addClass('hide');
   $('.singleRacePage').removeClass('hide');
   $('.singleRacePage').empty();

@@ -116,6 +116,7 @@ function Training(name, speedMultipler, enduranceMultipler, injuryRisk){
 
 //Create some shoes
 var shoes = {};
+shoes.barefoot = new Shoes("Barefoot", 5);
 shoes.chucks = new Shoes("Chucks", 10);
 shoes.brooks = new Shoes("Brooks", 40);
 shoes.nike = new Shoes("Nike", 45);

@@ -11,26 +11,28 @@ function Runner(name, color, speed, endurance, shoe){
   }
 
   this.train = function(training){
-    loadTemplate('animatedRunner', userRunner, $('.singleTrainingPage'));
+    var that = this;
+    loadTemplate('animatedRunner', that, $('.singleTrainingPage'));
     if(Math.floor(Math.random() * 30) <= training.injuryRisk){
       this.speed -= Math.ceil(Math.random() * training.speedMultipler * 10) / 10;
       this.endurance -= Math.ceil(Math.random() * training.enduranceMultipler * 10) / 10;
       setTimeout(function(){
         $('.singleTrainingPage').empty();
-        loadTemplate('trainingDecreasedResults', userRunner, $('.singleTrainingPage'));
+        loadTemplate('trainingDecreasedResults', that, $('.singleTrainingPage'));
       }, 5000);
     } else{
       this.speed += Math.ceil(Math.random() * training.speedMultipler * 10) / 10;
       this.endurance += Math.ceil(Math.random() * training.enduranceMultipler * 10) / 10;
       setTimeout(function(){
         $('.singleTrainingPage').empty();
-        loadTemplate('trainingImprovedResults', userRunner, $('.singleTrainingPage'));
+        loadTemplate('trainingImprovedResults', that, $('.singleTrainingPage'));
       }, 5000);
     }
   };
 
   this.runRace = function(course){
-    for(var timeCount = 1; courses.mile.distance > 0; timeCount++){
+    var that = this;
+    for(var timeCount = 1; course.distance > 0; timeCount++){
       var humanSpeed = this.speed * course.speedMultipler - this.fatigue * course.speedMultipler;
       var movement = Math.floor((Math.random() * humanSpeed) + (Math.random() * this.shoes.speed));
       course.distance -= movement;
@@ -50,11 +52,11 @@ function Runner(name, color, speed, endurance, shoe){
           hours = Math.floor(timeCount / 10);
           timeCount = timeCount % 10 * 6;
         }
-        loadTemplate('animatedRunner', userRunner, $('.singleRacePage'));
-        loadTemplate('animatedRacer', userRunner, $('.singleRacePage'));
+        loadTemplate('animatedRunner', that, $('.singleRacePage'));
+        loadTemplate('animatedRacer', that, $('.singleRacePage'));
         setTimeout(function(){
           $('.singleRacePage').empty();
-          loadTemplate('raceCompletedResults', userRunner, $('.singleRacePage'));
+          loadTemplate('raceCompletedResults', that, $('.singleRacePage'));
           loadTemplate('raceTimeResults', {hours: hours, timeCount: timeCount}, $('.singleRacePage'));
         }, 5500);
         this.fatigue = 0;
@@ -62,12 +64,12 @@ function Runner(name, color, speed, endurance, shoe){
         break;
       }
       if(movement <= 0){
-        loadTemplate('animatedRunnerDNF', userRunner, $('.singleRacePage'));
-        loadTemplate('animatedRacer', userRunner, $('.singleRacePage'));
+        loadTemplate('animatedRunnerDNF', that, $('.singleRacePage'));
+        loadTemplate('animatedRacer', that, $('.singleRacePage'));
         var distanceRemaining = course.distance / 100;
         setTimeout(function(){
           $('.singleRacePage').empty();
-          loadTemplate('raceDNFResults', userRunner, $('.singleRacePage'));
+          loadTemplate('raceDNFResults', that, $('.singleRacePage'));
           loadTemplate('raceDistanceRemaining', {distance: distanceRemaining}, $('.singleRacePage'));
         }, 5500);
         this.fatigue = 0;
@@ -192,6 +194,7 @@ $('.createRunner').on('click', '.btn', function(){
 
 //Select pre-made runner
 $('.selectPresetRunner').on('click', '.btn', function(){
+  $('html,body').scrollTop(0);
   userRunner = window[$("input[name=runnerSelect]:checked").val()];
   loadTemplate('userStats', userRunner, $('.menu'));
   $('.landingPage').addClass('hide');
@@ -202,6 +205,7 @@ $('.selectPresetRunner').on('click', '.btn', function(){
 //Menu select
 $('.menu').on('click', 'a', function(){
   if($(this).text() === "TRAIN"){
+    $('.currentStats').remove();
     $('.menu').addClass('hide');
     $('.trainingPage').removeClass('hide');
   }else if($(this).text() === "RACE"){
@@ -262,6 +266,7 @@ $('.trainingPage').on('click', 'a', function(){
   $('.singleTrainingPage').removeClass('hide');
   $('.singleTrainingPage').empty();
   setTimeout(function(){
+    loadTemplate('userStats', userRunner, $('.menu'));
     $('.menu').removeClass('hide');
     $('.singleTrainingPage').addClass('hide');
   }, 10000);

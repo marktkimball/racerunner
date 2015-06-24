@@ -43,6 +43,20 @@ describe('Constructors', function(){
       before(this.defaultRunner = new Runner());
       expect(this.defaultRunner.train).is.a('Function');
     })
+    it('should call train once when executed', function(){
+      before(this.defaultRunner = new Runner());
+      before(this.defaultTraining = new Training("Long Run", 2, 5, 31));
+      sinon.spy(this.defaultRunner, 'train');
+      this.defaultRunner.train(this.defaultTraining);
+      expect(this.defaultRunner.train).to.have.been.calledOnce;
+    })
+    it('should call train with correct training', function(){
+      before(this.defaultRunner = new Runner());
+      before(this.defaultTraining = new Training("Long Run", 2, 5, 31));
+      var spy = sinon.spy(this.defaultRunner, 'train');
+      this.defaultRunner.train(this.defaultTraining);
+      expect(spy.calledWith(this.defaultTraining)).to.be.ok;
+    })
     it('should get injured in training when injury risk of training is greater than random number', function(){
       before(sinon.stub(Math, "random", function(){return 1;}));
       before(this.defaultRunner = new Runner());
@@ -75,7 +89,20 @@ describe('Constructors', function(){
       before(this.defaultRunner.runRace(this.defaultCourse));
       expect(loadTemplate).twice;
     })
-
+    it('should call runRace once when executed', function(){
+      before(this.defaultRunner = new Runner());
+      before(this.defaultCourse = new Course("Marathon", "asphalt", "26.2 miles", 2620, 3));
+      sinon.spy(this.defaultRunner, 'runRace');
+      this.defaultRunner.runRace(this.defaultCourse);
+      expect(this.defaultRunner.runRace).to.have.been.calledOnce;
+    })
+    it('should call runRace with correct course', function(){
+      before(this.defaultRunner = new Runner());
+      before(this.defaultCourse = new Course("Marathon", "asphalt", "26.2 miles", 2620, 3));
+      var spy = sinon.spy(this.defaultRunner, 'runRace');
+      this.defaultRunner.runRace(this.defaultCourse);
+      expect(spy.calledWith(this.defaultCourse)).to.be.ok;
+    })
   })
 
   describe('Shoes Constructor', function(){

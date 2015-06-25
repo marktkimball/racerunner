@@ -81,7 +81,7 @@ var page ={
     this.shoes = shoe || new page.Shoes();
 
     this.getShoes = function(shoe){
-      this.shoes = eval("page.".concat(shoe));
+      this.shoes = eval(shoe);
     }
 
     this.train = function(training){
